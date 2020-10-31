@@ -1,18 +1,18 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.4.22 <0.8.0;
 
+import "./Arbitration.sol";
+
 contract Bet {
 
     struct Option {
         uint option_id;
         string description;
         uint option_balance;
+        address[] addresses;
 
         mapping(address => uint) private individual_bets;
         uint public individualCount;
-
-
-
     }
 
     struct Question{
@@ -24,12 +24,8 @@ contract Bet {
         address arbitrator;
         uint question_balance;
 
+        Option[] options;
         
-
-
-        ///mapping(uint => Option) public options;
-        ///uint public optionsCount;
-
     }
 
     mapping(uint => Question) public questions;
@@ -40,7 +36,7 @@ contract Bet {
 
         questionsCount++;
         //declare & define options struct
-        questions[questionsCount] = Question(questionsCount, msg.sender, msg.data, uint expiryTime, true, address arbitrator, Option[]);
+        questions[questionsCount] = Question(questionsCount, msg.sender, msg.data, uint expiryTime, true, address arbitrator, Option[] options);
 
 
 
@@ -91,10 +87,26 @@ contract Bet {
         require(question_id <= questionsCount);
         require(questions[question_id].open == true);
 
-        questions[question_id].open = false;
+        uint qtn = questions[question_id];
 
-        // reward distribution...
+        arb = Arbitration(qtn.description, qtn.options, qtn.arbitrator);
 
+        correct_prediction = arb.selectWinner();
+
+        correct_option = qtn.options[correct_prediction];
+
+        total_reward = qtn.question_balance;
+
+        for(uint i=1; i<=correct_option.addresses.length; i++){
+            reward_address = correct_option.addresses[i];
+            reward_amount = correct_option.individual_bets[reward_address] / correct_option.option_balance * total_reward;
+
+            require(reward_amount <= qtn.question_balance);
+            qtn.question_balance -= reward_amount;
+            reward_address.transfer(reward_amount);
+        }
+
+        qtn.open = false;
 
         return question_id;
     }

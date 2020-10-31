@@ -1,19 +1,30 @@
 pragma solidity >= 0.5.16;
 
 contract Arbitration {
-    string public description;
-    string public winningOpinion;
-    address public arbiter;
-    string[] public options;
+    struct Option {
+        uint option_id;
+        string description;
+        uint option_balance;
 
-    function setDescription(string memory _description) public {
-        description = _description;
+        mapping(address => uint) private individual_bets;
+        uint public individualCount;
     }
 
-    function selectWinner(uint proposalNumber) public {
-        
+    string public description;
+    uint public winningOption;
+    address public arbiter;
+    Option[] public options;
 
-        winningOpinion = options[proposalNumber];
+    constructor(string _questionDescription, Option[] _options, address _arbiter){
+        description = _questionDescription;
+        options = _options;
+        arbiter = _arbiter;
+    }
+
+    function selectWinner() public returns (uint) {
+        winningOption = 1;
+
+        return winningOption;
     }
 
 }
