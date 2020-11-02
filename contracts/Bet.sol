@@ -30,6 +30,11 @@ contract Bet {
 
     mapping(uint => Question) public questions;
     uint public questionsCount;
+    address public owner;
+
+    constructor () public {
+        owner = msg.sender;
+    }
 
     function addQuestion() private{
         require(msg.value >= 1);
@@ -87,7 +92,7 @@ contract Bet {
         require(question_id <= questionsCount);
         require(questions[question_id].open == true);
 
-        uint qtn = questions[question_id];
+        Question qtn = questions[question_id];
 
         arb = Arbitration(qtn.description, qtn.options, qtn.arbitrator);
 
@@ -97,7 +102,7 @@ contract Bet {
 
         total_reward = qtn.question_balance;
 
-        for(uint i=1; i<=correct_option.addresses.length; i++){
+        for(uint i=1; i<=correct_option.individualCount; i++){
             reward_address = correct_option.addresses[i];
             reward_amount = correct_option.individual_bets[reward_address] / correct_option.option_balance * total_reward;
 
@@ -111,8 +116,21 @@ contract Bet {
         return question_id;
     }
 
-    function makeBet() private{
+    function makeBet(uint question_id, uint option_id) public payable private{
+        Question qtn = questions[question_id];
+        Option opt = qtn.options[option_id];
 
+        if (!opt.individual_bets[msg.sender]){
+            opt.individualCount += 1;
+            opt.addresses.append(msg.sender);
+        }
+
+        opt.individual_bets[msg.sender] += msg.value;
+        opt.option_balance += msg.value;
+
+        qtn.question_balance += msg.value;
+
+        return question_id;
     }
     
 }
