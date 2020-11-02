@@ -6,8 +6,6 @@ contract Arbitration {
         string description;
         uint option_balance;
 
-        mapping(address => uint) private individual_bets;
-        uint public individualCount;
     }
 
     string public description;
@@ -15,10 +13,12 @@ contract Arbitration {
     address public arbiter;
     Option[] public options;
 
-    constructor(string _questionDescription, Option[] _options, address _arbiter){
-        description = _questionDescription;
-        options = _options;
+    constructor(address _arbiter) public {
         arbiter = _arbiter;
+    }
+
+    function addDetails() public {
+
     }
 
     function selectWinner() public returns (uint) {

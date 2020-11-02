@@ -9,45 +9,46 @@ contract("Bet", async (accounts) => {
       assert.equal(owner, accounts[0]); // compare the expected owner with the actual owner
     });
 
-    it("can add question", async () =>){
+    it("can add question", async () =>{
         let bet = await Bet.deployed();
 
-        await bet.addQuestion({
+        let questionCount = await bet.addQuestion(
+          desc = "desc",
+          expiryTime = 1,
+          arbitrator = "arb",
+          options = ['a', 'b'],
+          {
             from: accounts[1],
-            // data: description, options, resolution date, arbitrator address, 
+            //questionsCount, msg.sender, desc, expiryTime, true, arbitrator, options, msg.value
+            value: web3.utils.toWei("1")   // deposit
+          });
 
-        })
+        let first_question = await bet.getQuestionById(1);
+
+        assert.equal(questionCount, 1);
+        assert.equal(bet.questions[1], first_question);
     }
+    );
   
-    it("can close question", async () => {
-      let bet = await Bet.deployed();
+    // it("can close question", async () => {
+    //   let bet = await Bet.deployed();
 
-      await bet.addQuestion({
-          from: accounts[],
+    //   await bet.addQuestion({
+    //       from: accounts[],
 
 
-      });
+    //   });
 
-      let result = await bank.closeQuestion({
-        from: accounts[4],
-        data: , // all amount are expressed in wei, this is 3 Ether in wei
-      });
+    //   let result = await bank.closeQuestion({
+    //     from: accounts[4],
+    //     data: , // all amount are expressed in wei, this is 3 Ether in wei
+    //   });
   
-      // get deposited balance
-      let deposited = await bank.balance({ from: accounts[4] });
-      assert.equal(deposited.toString(), web3.utils.toWei("3"));
-    });
+    //   // get deposited balance
+    //   let deposited = await bank.balance({ from: accounts[4] });
+    //   assert.equal(deposited.toString(), web3.utils.toWei("3"));
+    // });
   
-    it("can withdraw less than despoited", async () => {
-      let bank = await Bank.deployed();
-      await bank.deposit({
-        from: accounts[0],
-        value: web3.utils.toWei("3"),
-      });
-      await bank.withdraw(web3.utils.toWei("2.9"), { from: accounts[0] });
-  
-      let deposited = await bank.balance({ from: accounts[0] });
-      assert.equal(deposited.toString(), web3.utils.toWei("0.1"));
-    });
+    
   });
   
