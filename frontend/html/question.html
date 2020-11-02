@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html class="has-background-grey-light">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>WSC</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+  </head>
+  <body>
+
+  <section class="hero is-dark">
+
+    <div class="hero-head">
+      <header class="navbar">
+        <div class="container">
+          <div class="navbar-brand">
+            <a class="navbar-item" href="index.html" style="font-size:2vw">
+              <div class="container">
+                <h1 class="title">
+                  CE4153
+                </h1>
+                <h2 class="subtitle">
+                  Prediction Market
+                </h2>
+              </div>
+            </a>
+            <span id="burger" class="navbar-burger burger" data-target="navbarMenuHeroC">
+              <span></span>
+              <span></span>
+              <span></span>
+            </span>
+          </div>
+          <div id="navbarMenuHeroC" class="navbar-menu">
+            <div class="navbar-end">
+              <a class="navbar-item" href="newMarket.html">
+                New Market
+              </a>
+            </div>
+          </div>
+        </div>
+      </header>
+    </div>
+
+    <script type="text/javascript">
+      burger.onclick = function() {
+          navbarMenuHeroC.classList.toggle("is-active")
+      }
+    </script>
+
+  </section>
+
+  <section class="section">
+    <div class="level">
+      <div class="level-item content">
+        <h1 style="color:white">Question ID</h1>
+      </div>
+    </div>
+    <div class="level">
+      <div class="tile is-ancestor level-item">
+        <div class="tile is-parent is-vertical is-4" id="fetchSomething">
+
+          <article class="tile is-child box">
+            <div class="content">
+              <p>
+                <strong>Question</strong>
+                <small>resolution date</small>
+                <br>
+                <div>
+                  option 1: <span id="option1"></span>
+                  <progress class="progress" value="50" max="100" id="oprtion_progress1"></progress>
+                </div>
+                <div>
+                  option 2: <span id="option2"></span>
+                  <progress class="progress" value="30" max="100" id="oprtion_progress2"></progress>
+                </div>
+                <div>
+                  option 3: <span id="option3"></span>
+                  <progress class="progress" value="30" max="100" id="oprtion_progress3"></progress>
+                </div>
+              </p>
+            </div>
+          </article>
+
+          <form action="/makebet" method="post" id="myform">
+
+            <div class="field">
+              <label class="label">Vote:</label>
+              <div class="control">
+                <div class="select">
+                  <select>
+                    <option>Option 1</option>
+                    <option>Option 2</option>
+                    <option>Option 3</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="label">Amount:</label>
+              <div class="control">
+                <input class="input" type="number" placeholder="$$$ wei" name="amount" required="required" value="1">
+              </div>
+            </div>
+
+            <div class="field">
+              <div class="control">
+                <label class="checkbox">
+                  <input type="checkbox">
+                  I agree to the <a href="#">terms and conditions</a>
+                </label>
+              </div>
+            </div>
+
+            <div class="field is-grouped">
+              <div class="control">
+                <button class="button is-link">Bet</button>
+              </div>
+              <div class="control">
+                <button class="button is-link is-light">Cancel</button>
+              </div>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  </body>
+</html>
