@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>WSC</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+
+    <script type="module">
+        import { fetchQuestions } from "./../script.js";
+        window.onload = fetchQuestions(0);
+    </script>
+
   </head>
   <body>
 
@@ -57,7 +63,25 @@
     </div>
     <div class="level">
       <div class="tile is-ancestor level-item">
-        <div class="tile is-parent is-vertical is-4" id="fetchSomething">
+        <div class="tile is-parent is-vertical is-4">
+          <div class="field">
+            <label class="label">filter:</label>
+            <div class="control">
+              <div class="select">
+                <select id="filter">
+                  <option>All</option>
+                  <option>Open</option>
+                  <option>Close</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="level">
+      <div class="tile is-ancestor level-item">
+        <div class="tile is-parent is-vertical is-4" id="fetchQuestions">
 
           <article class="tile is-child box">
             <div class="content">
@@ -85,6 +109,25 @@
       </div>
     </div>
   </section>
+
+  <script type="text/javascript">
+      document.addEventListener('DOMContentLoaded', () => {
+          let input = document.getElementById("filter")
+          let s = await import("./../script.js");
+          input.addEventListener('change', () => {
+              if(input.value == "Open") {
+                  // call yg api open
+                  s.fetchQuestions(1)
+              } else if(input.value == "Close") {
+                  // call yg api close
+                  s.fetchQuestions(2)
+              } else {
+                  // call yg api smua
+                  s.fetchQuestions(0)
+              }
+          })
+      })
+  </script>
 
   </body>
 </html>
