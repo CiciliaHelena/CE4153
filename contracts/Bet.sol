@@ -2,7 +2,6 @@
 pragma solidity >=0.4.22 <0.8.0;
 
 import "./Arbitration.sol";
-import "./Datetime.sol"; 
 
 contract Bet {
 
@@ -25,23 +24,26 @@ contract Bet {
         uint question_id;
         address owner;
         string description;
-        uint resolution_time;
+        uint expiryTime;
         bool open = true;
         address arbitrator;
         uint question_balance;
+        uint deposit;
 
         Option[] options;
 
-        constructor(uint _questionsCount, address _owner, string _desc, uint _expiryTime, true, address _arbitrator, string[] _options){
+        constructor(uint _questionsCount, address _owner, string _desc, uint _expiryTime, true, address _arbitrator, string[] _options, uint _deposit){
             question_id = _questionsCount;
             owner = _owner;
             description = _desc;
-            resolution_time = _expiryTime;
+            expiryTime = _expiryTime;
             arbitrator = _arbitrator;
             
             for (uint i=0; i< _options.length; i++){
                 options[i] = Option(i, _options[i]);
             }
+
+            deposit = _deposit;
 
         }
         
@@ -55,20 +57,20 @@ contract Bet {
         owner = msg.sender;
     }
 
-    function addQuestion() public {
+    function addQuestion(string desc, uint expiryTime, address arbitrator, string[] options) public {
         require(msg.value >= 1);
 
         questionsCount++;
         //declare & define options struct
-        questions[questionsCount] = Question(questionsCount, msg.sender, string desc, uint expiryTime, true, address arbitrator, string[] options);
+        questions[questionsCount] = Question(questionsCount, msg.sender, desc, expiryTime, true, arbitrator, options, msg.value);
 
         return questionsCount;
     }
 
     function updateQuestionStatus() private {
         for(uint i=1; i<=questionsCount; i++){
-            if(questions[i].open == true){
-                // if(questions[i].resolution_time <= )
+            if((questions[i].open == true) && (questions[i].expiryTime <= now)){
+                closeQuestion(i);
             }
         }
     }
@@ -114,6 +116,8 @@ contract Bet {
         correct_prediction = arb.selectWinner();
 
         correct_option = qtn.options[correct_prediction];
+
+        qtn.owner.transfer(qtn.deposit);
 
         total_reward = qtn.question_balance;
 
