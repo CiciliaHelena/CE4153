@@ -17,8 +17,12 @@ function createElementList(question) {
 
   const paragraph = document.createElement('p');
 
-  const qid = document.createElement('strong'); // <a href="question.html">question_ID</a>
-  qid.innerText = question.question_id;
+  var linkText = document.createTextNode(question.question_id);
+  const a = document.createElement('a');
+  a.href = "question.html" + "?qid=" + question.question_id;
+  a.appendChild(linkText);
+  const qid = document.createElement('strong');
+  qid.appendChild(a);
 
   const date = document.createElement('small');
   date.innerText = question.resolution_time;
