@@ -8,9 +8,25 @@ contract("Bet", async (accounts) => {
       let owner = await bet.owner(); 
       assert.equal(owner, accounts[0]); // compare the expected owner with the actual owner
     });
+
+    it("can add question", async () =>){
+        let bet = await Bet.deployed();
+
+        await bet.addQuestion({
+            from: accounts[1],
+            // data: description, options, resolution date, arbitrator address, 
+
+        })
+    }
   
     it("can close question", async () => {
       let bet = await Bet.deployed();
+
+      await bet.addQuestion({
+          from: accounts[],
+
+
+      });
 
       let result = await bank.closeQuestion({
         from: accounts[4],

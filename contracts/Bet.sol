@@ -36,7 +36,7 @@ contract Bet {
         owner = msg.sender;
     }
 
-    function addQuestion() private{
+    function addQuestion() public {
         require(msg.value >= 1);
 
         questionsCount++;
@@ -44,11 +44,10 @@ contract Bet {
         questions[questionsCount] = Question(questionsCount, msg.sender, msg.data, uint expiryTime, true, address arbitrator, Option[] options);
 
 
-
-
+        return question_id;
     }
 
-    function updateQuestionStatus(){
+    function updateQuestionStatus() private {
         for(uint i=1; i<=questionsCount; i++){
             if(questions[i].open == true){
                 // check expiry
@@ -58,13 +57,13 @@ contract Bet {
         }
     }
 
-    function getAllQuestions() private{
+    function getAllQuestions() public {
         updateQuestionStatus();
 
         return questions;
     }
 
-    function getFilteredQuestions(bool isOpen) private{
+    function getFilteredQuestions(bool isOpen) public {
         updateQuestionStatus();
         mapping(uint => Question) public filteredQuestions;
 
@@ -77,7 +76,7 @@ contract Bet {
         return filteredQuestions;
     }
 
-    function getQuestionById(uint qid) private{
+    function getQuestionById(uint qid) public {
         updateQuestionStatus();
         require(qid <= questionsCount);
 
@@ -88,7 +87,7 @@ contract Bet {
         }
     }
 
-    function closeQuestion(uint question_id) private{
+    function closeQuestion(uint question_id) private {
         require(question_id <= questionsCount);
         require(questions[question_id].open == true);
 
@@ -116,7 +115,9 @@ contract Bet {
         return question_id;
     }
 
-    function makeBet(uint question_id, uint option_id) public payable private{
+    function makeBet(uint question_id, uint option_id) public payable {
+        require(questions[question_id].open == true);
+        
         Question qtn = questions[question_id];
         Option opt = qtn.options[option_id];
 
