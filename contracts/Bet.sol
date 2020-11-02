@@ -2,6 +2,7 @@
 pragma solidity >=0.4.22 <0.8.0;
 
 import "./Arbitration.sol";
+import "./Datetime.sol"; 
 
 contract Bet {
 
@@ -13,6 +14,11 @@ contract Bet {
 
         mapping(address => uint) private individual_bets;
         uint public individualCount;
+
+        constructor(uint _option_id, string _desc){
+            option_id = _option_id;
+            description = _desc;
+        }
     }
 
     struct Question{
@@ -20,11 +26,24 @@ contract Bet {
         address owner;
         string description;
         uint resolution_time;
-        bool open;
+        bool open = true;
         address arbitrator;
         uint question_balance;
 
         Option[] options;
+
+        constructor(uint _questionsCount, address _owner, string _desc, uint _expiryTime, true, address _arbitrator, string[] _options){
+            question_id = _questionsCount;
+            owner = _owner;
+            description = _desc;
+            resolution_time = _expiryTime;
+            arbitrator = _arbitrator;
+            
+            for (uint i=0; i< _options.length; i++){
+                options[i] = Option(i, _options[i]);
+            }
+
+        }
         
     }
 
@@ -41,18 +60,15 @@ contract Bet {
 
         questionsCount++;
         //declare & define options struct
-        questions[questionsCount] = Question(questionsCount, msg.sender, msg.data, uint expiryTime, true, address arbitrator, Option[] options);
+        questions[questionsCount] = Question(questionsCount, msg.sender, string desc, uint expiryTime, true, address arbitrator, string[] options);
 
-
-        return question_id;
+        return questionsCount;
     }
 
     function updateQuestionStatus() private {
         for(uint i=1; i<=questionsCount; i++){
             if(questions[i].open == true){
-                // check expiry
-                // if expired call closeQuestion
-
+                // if(questions[i].resolution_time <= )
             }
         }
     }
@@ -117,7 +133,7 @@ contract Bet {
 
     function makeBet(uint question_id, uint option_id) public payable {
         require(questions[question_id].open == true);
-        
+
         Question qtn = questions[question_id];
         Option opt = qtn.options[option_id];
 
