@@ -26,13 +26,16 @@ contract Bet {
         uint question_balance;
         uint deposit;
 
-        Option[] options;
+        Option option1;
+        Option option2;
+        Option option3;
         
     }
 
     mapping(uint => Question) public questions;
     uint public questionsCount;
     address public owner;
+    event LogBetMade(address accountAddress, uint amount);
 
     constructor () public {
         owner = msg.sender;
@@ -43,20 +46,35 @@ contract Bet {
 
         questionsCount++;
 
-        Option[] memory optionsArray;
         address payable[] memory empty_address;
         uint[] memory empty_bets;
 
-        for (uint i=0; i< _options.length; i++){
-            optionsArray[i] = Option({
-                option_id: i,
-                description: _options[i],
-                option_balance: 0,
-                addresses: empty_address,
-                individual_bets: empty_bets,
-                individualCount: 0
-            });
-        }
+        Option memory dummyOption1 = Option({
+            option_id: 0,
+            description: _options[0],
+            option_balance: 0,
+            addresses: empty_address,
+            individual_bets: empty_bets,
+            individualCount: 0
+        });
+
+        Option memory dummyOption2 = Option({
+            option_id: 1,
+            description: _options[1],
+            option_balance: 0,
+            addresses: empty_address,
+            individual_bets: empty_bets,
+            individualCount: 0
+        });
+
+        Option memory dummyOption3 = Option({
+            option_id: 2,
+            description: _options[2],
+            option_balance: 0,
+            addresses: empty_address,
+            individual_bets: empty_bets,
+            individualCount: 0
+        });
 
         questions[questionsCount] = Question({
             question_id: questionsCount, 
@@ -65,7 +83,9 @@ contract Bet {
             expiryTime: _expiryTime,
             open: true,
             arbitrator: _arbitrator,
-            options: optionsArray,
+            option1: dummyOption1,
+            option2: dummyOption2,
+            option3: dummyOption3,
             question_balance: 0,
             deposit: msg.value}
         );
@@ -88,7 +108,7 @@ contract Bet {
         string[] memory question_desc;
         uint[] memory question_exp;
 
-        for (uint i=0; i<questionsCount; i++){
+        for (uint i=1; i<=questionsCount; i++){
             question_ids[i] = questions[i].question_id;
             question_desc[i] = questions[i].description;
             question_exp[i] = questions[i].expiryTime;
@@ -130,10 +150,17 @@ contract Bet {
         string[] memory opt_desc;
         uint[] memory opt_count;
 
-        for(uint j=0; j<=3; j++){
-            opt_desc[j] = qtn.options[j].description;
-            opt_count[j] = qtn.options[j].individualCount;
-        }
+        opt_desc[0] = qtn.option1.description;
+        opt_desc[1] = qtn.option2.description;
+        opt_desc[2] = qtn.option3.description;
+        opt_count[0] = qtn.option1.individualCount;
+        opt_count[1] = qtn.option2.individualCount;
+        opt_count[2] = qtn.option3.individualCount;
+
+        // for(uint j=0; j<=3; j++){
+        //     opt_desc[j] = qtn.options[j].description;
+        //     opt_count[j] = qtn.options[j].individualCount;
+        // }
 
         return (qtn.question_id, qtn.description, qtn.expiryTime, opt_desc, opt_count);
         
@@ -145,12 +172,14 @@ contract Bet {
 
         Question memory qtn = questions[question_id];
 
-        Arbitration arb = Arbitration(qtn.arbitrator);
+        //Arbitration arb = Arbitration(qtn.arbitrator);
         // arb.addDetails(qtn.description, qtn.options);
 
-        uint correct_prediction = arb.selectWinner();
+        //uint correct_prediction = arb.selectWinner();
 
-        Option memory correct_option = qtn.options[correct_prediction];
+        Option memory correct_option = qtn.option1;
+
+        //Option memory correct_option = qtn.options[correct_prediction];
 
         qtn.owner.transfer(qtn.deposit);
 
@@ -174,7 +203,19 @@ contract Bet {
         require(questions[question_id].open == true);
 
         Question memory qtn = questions[question_id];
-        Option memory opt = qtn.options[option_id];
+        //Option memory opt = qtn.options[option_id];
+
+        Option memory opt;
+
+        if (option_id == 0){
+            opt = qtn.option1;
+        }
+        else if (option_id == 1){
+            opt = qtn.option2;
+        }
+        else {
+            opt = qtn.option3;
+        }
 
         uint index;
         for (uint i=0; i<opt.addresses.length; i++){
