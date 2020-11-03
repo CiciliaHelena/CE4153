@@ -22,43 +22,40 @@ export const createQuestion = async (desc, expiryTime, arbitrator, options) => {
 
   const provider = await detectEthereumProvider();
     if (provider) {
-        // From now on, this should always be true:
-        // provider === window.ethereum
-        ethereum.request({
-            method: "eth_sendTransaction",
-            params: [
-            {
-                from: ethereum.selectedAddress,
-                to: BetContractAddress,
-                value: web3.utils.toHex(web3.utils.toWei(amount)), // have to convert to hexdemical for big number
-                data: web3.eth.abi.encodeFunctionCall(
-                {
-                  name: "addQuestion",
-                  type: "function",
-                  inputs: [{
-                      type: 'string',
-                      name: 'desc'
-                  },{
-                      type: 'uint256',
-                      name: 'expiryTime'
-                  },{
-                      type: 'address',
-                      name: 'arbitrator'
-                  },{
-                      type: 'string[]',
-                      name: 'options'
-                  }]
-                },
-                [desc, expiryTime, arbitrator, options]
-            ), 
-            chainId: 3, // ropsten
-            },
-            ],
-        });
+      // From now on, this should always be true:
+      // provider === window.ethereum
+      ethereum.request({
+        method: "eth_sendTransaction",
+        params: [
+        {
+          from: ethereum.selectedAddress,
+          to: BetContractAddress,
+          value: web3.utils.toHex(web3.utils.toWei(amount)), // have to convert to hexdemical for big number
+          data: web3.eth.abi.encodeFunctionCall(
+          {
+            name: "addQuestion",
+            type: "function",
+            inputs: [{
+              type: 'string',
+              name: 'desc'
+            },{
+              type: 'uint256',
+              name: 'expiryTime'
+            },{
+              type: 'address',
+              name: 'arbitrator'
+            },{
+              type: 'string[]',
+              name: 'options'
+            }]
+          },
+          [desc, expiryTime, arbitrator, options]
+          ), 
+          chainId: 3, // ropsten
+        },
+        ],
+      });
     } else {
         console.log("Please install MetaMask!");
-    }
-
-  );
-
+    };
 };
