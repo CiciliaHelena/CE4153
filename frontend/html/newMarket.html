@@ -63,7 +63,7 @@
             <div class="field">
               <label class="label">Question</label>
               <div class="control">
-                <input class="input" type="text" placeholder="Question" name="qusetion" required="required">
+                <input class="input" type="text" placeholder="Question" name="question" required="required">
               </div>
             </div>
 
@@ -134,6 +134,13 @@
             </div>
 
           </form>
+
+          <script type="module">
+            import { submitMarketForm } from "./../script.js";
+            const myform = document.forms["myform"];
+            myform.onsubmit = submitMarketForm;
+          </script>
+
         </div>
       </div>
     </div>

@@ -5,6 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>WSC</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+
+    <script type="module">
+      import { fetchQuestion } from "./../script.js";
+      const urlParams = new URLSearchParams(window.location.search);
+      const qid = urlParams.get('qid');
+      window.onload = fetchQuestion(qid);
+    </script>
+
   </head>
   <body>
 
@@ -52,42 +60,42 @@
   <section class="section">
     <div class="level">
       <div class="level-item content">
-        <h1 style="color:white">Question ID</h1>
+        <h1 style="color:white"><span id="qid">Question ID</span></h1>
       </div>
     </div>
     <div class="level">
       <div class="tile is-ancestor level-item">
-        <div class="tile is-parent is-vertical is-4" id="fetchSomething">
+        <div class="tile is-parent is-vertical is-4">
 
           <article class="tile is-child box">
             <div class="content">
               <p>
-                <strong>Question</strong>
-                <small>resolution date</small>
+                <strong><span id="question">Question</span></strong>
+                <small><span id="rdate">resolution date</span></small>
                 <br>
                 <div>
                   option 1: <span id="option1"></span>
-                  <progress class="progress" value="50" max="100" id="oprtion_progress1"></progress>
+                  <progress class="progress" value="50" max="100" id="option_progress1"></progress>
                 </div>
                 <div>
                   option 2: <span id="option2"></span>
-                  <progress class="progress" value="30" max="100" id="oprtion_progress2"></progress>
+                  <progress class="progress" value="30" max="100" id="option_progress2"></progress>
                 </div>
                 <div>
                   option 3: <span id="option3"></span>
-                  <progress class="progress" value="30" max="100" id="oprtion_progress3"></progress>
+                  <progress class="progress" value="30" max="100" id="option_progress3"></progress>
                 </div>
               </p>
             </div>
           </article>
 
-          <form action="/makebet" method="post" id="myform">
+          <form id="myform">
 
             <div class="field">
               <label class="label">Vote:</label>
               <div class="control">
                 <div class="select">
-                  <select>
+                  <select name="vote">
                     <option>Option 1</option>
                     <option>Option 2</option>
                     <option>Option 3</option>
@@ -122,6 +130,13 @@
             </div>
 
           </form>
+
+          <script type="module">
+            import { submitVoteForm } from "./../script.js";
+            const myform = document.forms["myform"];
+            myform.onsubmit = submitVoteForm;
+          </script>
+
         </div>
       </div>
     </div>
