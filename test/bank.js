@@ -1,7 +1,5 @@
 const Bank = artifacts.require("Bank");
 
-import "./Bet.sol";
-
 contract("Bank", async (accounts) => {
   // accounts are the list of account created by the Truffle (i.e. 10 key pair)
   // by default, the first account will deploy the contract

@@ -12,21 +12,43 @@ contract("Bet", async (accounts) => {
     it("can add question", async () =>{
         let bet = await Bet.deployed();
 
-        let questionCount = await bet.addQuestion(
-          desc = "desc",
-          expiryTime = 1,
-          arbitrator = "arb",
-          options = ['a', 'b'],
+        await bet.addQuestion(
+          _desc = "desc1",
+          _expiryTime = 5,
+          _arbitrator = "0xfC159e8a4bC84154b622aCF94a8e93F4506118B9",
+          _options = ['a', 'b', 'c'],
+          
           {
             from: accounts[1],
             //questionsCount, msg.sender, desc, expiryTime, true, arbitrator, options, msg.value
             value: web3.utils.toWei("1")   // deposit
-          });
+          }
+        );
 
-        let first_question = await bet.getQuestionById(1);
+        await bet.addQuestion(
+          _desc = "desc2",
+          _expiryTime = 10,
+          _arbitrator = "0xfC159e8a4bC84154b622aCF94a8e93F4506118B9",
+          _options = ['a', 'b', 'c'],
+          
+          {
+            from: accounts[1],
+            //questionsCount, msg.sender, desc, expiryTime, true, arbitrator, options, msg.value
+            value: web3.utils.toWei("2")   // deposit
+          }
+        );
 
-        assert.equal(questionCount, 1);
-        assert.equal(bet.questions[1], first_question);
+        // let result_id, result_description, result_expiryTime, result_opt_desc, result_opt_count = await bet.getQuestionById.call(
+        //   qid = 1
+        // );
+
+        //let expTime = await bet.questionExpiry.call(qid = 1);
+        let desc = await bet.getDescription(2);
+
+        assert.equal(desc, "desc2");
+        //assert.equal(expTime, true);
+
+        // assert.equal(bet.questions[1].description, result_description);
     }
     );
   
