@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.4.22 <0.8.0;
+pragma solidity >=0.5.16;
 pragma experimental ABIEncoderV2;
 
 import "./Arbitration.sol";
@@ -35,16 +35,21 @@ contract Bet {
     mapping(uint => Question) public questions;
     uint public questionsCount;
     address public owner;
-    event LogBetMade(address accountAddress, uint amount);
+    event LogQuestionMade(address accountAddress, uint amount);
 
     constructor () public {
         owner = msg.sender;
     }
 
+    function getDescription(uint qid) view public returns (string memory){
+        string memory desc = questions[qid].description;
+        return desc;
+    }
+
     function addQuestion(string memory _desc, uint _expiryTime, address _arbitrator, string[] memory _options) public payable returns (uint) {
         require(msg.value >= 1);
 
-        questionsCount++;
+        questionsCount += 1;
 
         address payable[] memory empty_address;
         uint[] memory empty_bets;
@@ -89,6 +94,8 @@ contract Bet {
             question_balance: 0,
             deposit: msg.value}
         );
+
+        emit LogQuestionMade(msg.sender, msg.value); // emit an event
 
         return questionsCount;
     }
@@ -156,6 +163,8 @@ contract Bet {
         opt_count[0] = qtn.option1.individualCount;
         opt_count[1] = qtn.option2.individualCount;
         opt_count[2] = qtn.option3.individualCount;
+
+        
 
         // for(uint j=0; j<=3; j++){
         //     opt_desc[j] = qtn.options[j].description;

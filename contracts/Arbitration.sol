@@ -13,8 +13,8 @@ contract Arbitration {
     address public arbiter;
     Option[] public options;
 
-    constructor(address _arbiter) public {
-        arbiter = _arbiter;
+    constructor() public {
+        arbiter = msg.sender;
     }
 
     function addDetails() public {
