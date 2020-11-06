@@ -1,18 +1,9 @@
-<!DOCTYPE html>
 <html class="has-background-grey-light">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>WSC</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
-
-    <script type="module">
-      import { fetchQuestion } from "./../script.js";
-      const urlParams = new URLSearchParams(window.location.search);
-      const qid = urlParams.get('qid');
-      window.onload = fetchQuestion(qid);
-    </script>
-
   </head>
   <body>
 
@@ -60,56 +51,67 @@
   <section class="section">
     <div class="level">
       <div class="level-item content">
-        <h1 style="color:white"><span id="qid">Question ID</span></h1>
+        <h1 style="color:white">New Market</h1>
       </div>
     </div>
     <div class="level">
       <div class="tile is-ancestor level-item">
         <div class="tile is-parent is-vertical is-4">
-
-          <article class="tile is-child box">
-            <div class="content">
-              <p>
-                <strong><span id="question">Question</span></strong>
-                <small><span id="rdate">resolution date</span></small>
-                <br>
-                <div>
-                  option 1: <span id="option1"></span>
-                  <progress class="progress" value="50" max="100" id="option_progress1"></progress>
-                </div>
-                <div>
-                  option 2: <span id="option2"></span>
-                  <progress class="progress" value="30" max="100" id="option_progress2"></progress>
-                </div>
-                <div>
-                  option 3: <span id="option3"></span>
-                  <progress class="progress" value="30" max="100" id="option_progress3"></progress>
-                </div>
-              </p>
-            </div>
-          </article>
-
           <form id="myform">
 
             <div class="field">
-              <label class="label">Vote:</label>
+              <label class="label">Question</label>
+              <div class="control">
+                <input class="input" type="text" placeholder="Question" name="question" required="required">
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="label">Option 1</label>
+              <div class="control">
+                <input class="input" type="text" placeholder="Answer 1" name="option1" required="required">
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="label">Option 2</label>
+              <div class="control">
+                <input class="input" type="text" placeholder="Answer 2" name="option2" required="required">
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="label">Option 3</label>
+              <div class="control">
+                <input class="input" type="text" placeholder="Answer 3" name="option3">
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="label">Deposit</label>
+              <div class="control">
+                <input class="input" type="number" placeholder="$$$ wei" name="deposit" required="required" value="1">
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="label">Resolution Date</label>
+              <div class="control">
+                <input class="input" type="date" name="date" required="required">
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="label">Arbitrator</label>
               <div class="control">
                 <div class="select">
-                  <select name="vote">
-                    <option>Option 1</option>
-                    <option>Option 2</option>
-                    <option>Option 3</option>
+                  <select>
+                    <option>Trust ME (default)</option>
                   </select>
                 </div>
               </div>
             </div>
 
-            <div class="field">
-              <label class="label">Amount:</label>
-              <div class="control">
-                <input class="input" type="number" placeholder="$$$ wei" name="amount" required="required" value="1">
-              </div>
-            </div>
 
             <div class="field">
               <div class="control">
@@ -120,9 +122,10 @@
               </div>
             </div>
 
+
             <div class="field is-grouped">
               <div class="control">
-                <button class="button is-link">Bet</button>
+                <button class="button is-link">Create</button>
               </div>
               <div class="control">
                 <button class="button is-link is-light" onclick="window.history.back()">Cancel</button>
@@ -132,9 +135,9 @@
           </form>
 
           <script type="module">
-            import { submitVoteForm } from "./../script.js";
+            import { submitMarketForm } from "./script.js";
             const myform = document.forms["myform"];
-            myform.onsubmit = submitVoteForm;
+            myform.onsubmit = submitMarketForm;
           </script>
 
         </div>

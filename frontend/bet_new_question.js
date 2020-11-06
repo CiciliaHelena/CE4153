@@ -51,7 +51,7 @@ export const createQuestion = async (desc, expiryTime, arbitrator, options) => {
           },
           [desc, expiryTime, arbitrator, options]
           ), 
-          chainId: 3, // ropsten
+          chainId: 1, // ropsten 3
         },
         ],
       });

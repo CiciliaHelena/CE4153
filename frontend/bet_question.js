@@ -19,9 +19,9 @@ const web3 = new Web3(
 const contract = new web3.eth.Contract(artifact.abi, BetContractAddress);
 
 export const showQuestionDetails = async (question_id) => {
-  const currentQuestion = await contract.methods.getQuestionById(question_id).call();
+  let qid, qdesc, qexp, opdesc, opcount = await contract.methods.getQuestionById(question_id).call();
 
-  return {currentQuestion};
+  return qid, qdesc, qexp, opdesc, opcount;
 };
 
 export const makeBet = async (question_id, option_id, amount) => {

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html class="has-background-grey-light">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>WSC</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+
+    <script type="module">
+      import { fetchQuestion } from "./script.js";
+      const urlParams = new URLSearchParams(window.location.search);
+      const qid = urlParams.get('qid');
+      window.onload = fetchQuestion(qid);
+    </script>
+
+  </head>
+  <body>
+
+  <section class="hero is-dark">
+
+    <div class="hero-head">
+      <header class="navbar">
+        <div class="container">
+          <div class="navbar-brand">
+            <a class="navbar-item" href="/index.html" style="font-size:2vw">
+              <div class="container">
+                <h1 class="title">
+                  CE4153
+                </h1>
+                <h2 class="subtitle">
+                  Prediction Market
+                </h2>
+              </div>
+            </a>
+            <span id="burger" class="navbar-burger burger" data-target="navbarMenuHeroC">
+              <span></span>
+              <span></span>
+              <span></span>
+            </span>
+          </div>
+          <div id="navbarMenuHeroC" class="navbar-menu">
+            <div class="navbar-end">
+              <a class="navbar-item" href="/newMarket.html">
+                New Market
+              </a>
+            </div>
+          </div>
+        </div>
+      </header>
+    </div>
+
+    <script>burger.onclick = function () {
+  navbarMenuHeroC.classList.toggle("is-active");
+};</script>
+
+  </section>
+
+  <section class="section">
+    <div class="level">
+      <div class="level-item content">
+        <h1 style="color:white"><span id="qid">Question ID</span></h1>
+      </div>
+    </div>
+    <div class="level">
+      <div class="tile is-ancestor level-item">
+        <div class="tile is-parent is-vertical is-4">
+
+          <article class="tile is-child box">
+            <div class="content">
+              <p>
+                <strong><span id="question">Question</span></strong>
+                <small><span id="rdate">resolution date</span></small>
+                <br>
+                <div>
+                  option 1: <span id="option1"></span>
+                  <progress class="progress" value="50" max="100" id="option_progress1"></progress>
+                </div>
+                <div>
+                  option 2: <span id="option2"></span>
+                  <progress class="progress" value="30" max="100" id="option_progress2"></progress>
+                </div>
+                <div>
+                  option 3: <span id="option3"></span>
+                  <progress class="progress" value="30" max="100" id="option_progress3"></progress>
+                </div>
+              </p>
+            </div>
+          </article>
+
+          <form id="myform">
+
+            <div class="field">
+              <label class="label">Vote:</label>
+              <div class="control">
+                <div class="select">
+                  <select name="vote">
+                    <option>Option 1</option>
+                    <option>Option 2</option>
+                    <option>Option 3</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="label">Amount:</label>
+              <div class="control">
+                <input class="input" type="number" placeholder="$$$ wei" name="amount" required="required" value="1">
+              </div>
+            </div>
+
+            <div class="field">
+              <div class="control">
+                <label class="checkbox">
+                  <input type="checkbox" required="required">
+                  I agree to the <a href="#">terms and conditions</a>
+                </label>
+              </div>
+            </div>
+
+            <div class="field is-grouped">
+              <div class="control">
+                <button class="button is-link">Bet</button>
+              </div>
+              <div class="control">
+                <button class="button is-link is-light" onclick="window.history.back()">Cancel</button>
+              </div>
+            </div>
+
+          </form>
+
+          <script type="module">
+            import { submitVoteForm } from "./script.js";
+            const myform = document.forms["myform"];
+            myform.onsubmit = submitVoteForm;
+          </script>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  </body>
+</html>

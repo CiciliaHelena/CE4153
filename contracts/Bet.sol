@@ -102,7 +102,7 @@ contract Bet {
 
     function updateQuestionStatus() private {
         for(uint i=1; i<=questionsCount; i++){
-            if((questions[i].open == true) && (questions[i].expiryTime <= block.timestamp)){
+            if((questions[i].open == true) && (questions[i].expiryTime <= block.timestamp*1000)){
                 closeQuestion(i);
             }
         }

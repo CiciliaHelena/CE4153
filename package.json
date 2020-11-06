@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "start": "cd frontend && npm start"
+  },
+  "dependencies": {
+    "parcel": "^1.12.4",
+    "web3": "^1.3.0"
+  }
+}

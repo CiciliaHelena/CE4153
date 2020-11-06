@@ -7,11 +7,11 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
 
     <script type="module">
-        import { fetchQuestions } from "./../script.js";
+        import { fetchQuestions } from "./script.js";
         window.onload = fetchQuestions(0);
     </script>
 
-  </head>
+  <script src="/newMarket.js"></script></head>
   <body>
 
   <section class="hero is-dark">
@@ -20,7 +20,7 @@
       <header class="navbar">
         <div class="container">
           <div class="navbar-brand">
-            <a class="navbar-item" href="index.html" style="font-size:2vw">
+            <a class="navbar-item" href="/index.html" style="font-size:2vw">
               <div class="container">
                 <h1 class="title">
                   CE4153
@@ -38,7 +38,7 @@
           </div>
           <div id="navbarMenuHeroC" class="navbar-menu">
             <div class="navbar-end">
-              <a class="navbar-item" href="newMarket.html">
+              <a class="navbar-item" href="/newMarket.html">
                 New Market
               </a>
             </div>
@@ -47,11 +47,9 @@
       </header>
     </div>
 
-    <script type="text/javascript">
-      burger.onclick = function() {
-          navbarMenuHeroC.classList.toggle("is-active")
-      }
-    </script>
+    <script>burger.onclick = function () {
+  navbarMenuHeroC.classList.toggle("is-active");
+};</script>
 
   </section>
 
@@ -86,7 +84,7 @@
           <article class="tile is-child box">
             <div class="content">
               <p>
-                <strong><a href="question.html?qid=1">question_ID</a></strong>
+                <strong><a href="/question.html?qid=1">question_ID</a></strong>
                 <small>resolution date</small>
                 <br>
                 question
@@ -97,7 +95,7 @@
           <article class="tile is-child box">
             <div class="content">
               <p>
-                <strong><a href="question.html">question_ID</a></strong>
+                <strong><a href="/question.html">question_ID</a></strong>
                 <small>resolution date</small>
                 <br>
                 question
@@ -111,7 +109,7 @@
   </section>
 
   <script type="module">
-    import { fetchQuestions } from "./../script.js";
+    import { fetchQuestions } from "./script.js";
     let input = document.getElementById("filter")
     input.addEventListener('change', () => {
         if(input.value == "Open") {

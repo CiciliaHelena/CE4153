@@ -20,16 +20,19 @@ const contract = new web3.eth.Contract(artifact.abi, BetContractAddress);
 
 export const showQuestionList = async (i) => {
   // doc here: https://web3js.readthedocs.io/en/v1.2.11/web3-eth-contract.html#methods-mymethod-call
+  let qid, qdesc, qexp;
   if (!i){
-      await contract.methods.getAllQuestions().call();
+      qid, qdesc, qexp = await contract.methods.getAllQuestions().call();
   }
   else if(i==1){
       // open questions
-      await contract.methods.getFilteredQuestions(true).call();
+      qid, qdesc, qexp = await contract.methods.getFilteredQuestions(true).call();
   }
   else {
       // closed questions
-      await contract.methods.getFilteredQuestions(false).call();
+      qid, qdesc, qexp = await contract.methods.getFilteredQuestions(false).call();
   }
+
+  return qid, qdesc, qexp; 
   
 };
